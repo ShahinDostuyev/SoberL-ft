@@ -5,6 +5,7 @@ import MyTrips from "../screens/myTrips";
 import AboutScreen from "../screens/about";
 import HomeScreen from "../screens/home";
 import ProfileScreen from "../screens/profile";
+import HomeNavigator from "./Home";
 
 const Drawer = createDrawerNavigator();
 
@@ -15,7 +16,7 @@ function RootNavigator() {
         <Drawer.Screen
           options={(headerShown = false)}
           name="Home"
-          component={HomeScreen}
+          component={HomeNavigator}
         />
         <Drawer.Screen
           options={(headerShown = false)}
