@@ -1,43 +1,51 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
+import 'react-native-gesture-handler';
+import { PermissionsAndroid, Platform, StyleSheet } from "react-native";
 
-import StartScreen from "./screens/start";
-import LoginPage from "./screens/login";
-import RegisterPage from "./screens/register";
-import { NavigationContainer } from "@react-navigation/native";
-import HomeScreen from "./screens/home";
+import { useEffect } from "react";
 
-const Stack = createStackNavigator();
+import RootNavigator from "./navigation/Root";
+
+// import Geolocation from "@react-native-community/geolocation";
+// navigator.geolocation = require("@react-native-community/geolocation")
 
 export default function App() {
+  // const requestLocationPermission = async () => {
+  //   try {
+  //     const granted = await PermissionsAndroid.request(
+  //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+  //       {
+  //         title: "SoberLift Location Permission",
+  //         message:
+  //           "SoberLift needs access to your location " +
+  //           "so you can take awesome rides.",
+  //         buttonNeutral: "Ask Me Later",
+  //         buttonNegative: "Cancel",
+  //         buttonPositive: "OK",
+  //       }
+  //     );
+  //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+  //       console.log("You can use the location");
+  //     } else {
+  //       console.log("Location permission denied");
+  //     }
+  //   } catch (err) {
+  //     console.warn(err);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (Platform.OS === "android") {
+  //     requestLocationPermission();
+  //   }else{
+  //     Geolocation.requestAuthorization();
+  //   }
+  // }, []);
+
   return (
     <>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen
-            name="Start"
-            component={StartScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Login"
-            component={LoginPage}
-            // options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Register"
-            component={RegisterPage}
-            // options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
       <StatusBar style="light" />
+      <RootNavigator />
     </>
   );
 }

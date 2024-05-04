@@ -1,16 +1,71 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-function HomeScreen() {
+import Colors from "../../constants/Colors";
+import MapView, { Marker } from "react-native-maps";
+
+const drivers = [
+  { id: 1, name: "Shahin", coordinate: { latitude: 38.32, longitude: 26.63 } },
+  {
+    id: 2,
+    name: "Nurlan",
+    coordinate: { latitude: 38.3235, longitude: 26.6334 },
+  },
+  {
+    id: 3,
+    name: "Masud",
+    coordinate: { latitude: 38.3223, longitude: 26.637 },
+  },
+  {
+    id: 4,
+    name: "Fakhri",
+    coordinate: { latitude: 38.3245, longitude: 26.63465 },
+  },
+  {
+    id: 5,
+    name: "Elvin",
+    coordinate: { latitude: 38.33, longitude: 26.645 },
+  },
+];
+function HomeScreen({ navigation }) {
+  const goToSearch = () => {
+    navigation.navigate("DestinationSearch");
+  };
+  const selectTime = () => {
+    console.log("Let's select time");
+  }
   return (
     <>
-      <View style={styles.map}>
-        <Text>Map screen</Text>
-      </View>
+      <MapView
+        style={styles.map}
+        initialRegion={{
+          latitude: 38.320278,
+          longitude: 26.636389,
+          latitudeDelta: 0.015,
+          longitudeDelta: 0.04,
+        }}
+      >
+        {drivers.map((driver) => {
+          return (
+            <Marker
+              id={driver.id}
+              coordinate={driver.coordinate}
+              title={driver.name}
+              description="Location of drivers"
+            >
+              <Image
+                id={driver.id}
+                style={{ width: 40, height: 40, resizeMode: "contain" }}
+                source={require("../../assets/images/driver.png")}
+              />
+            </Marker>
+          );
+        })}
+      </MapView>
       <View style={styles.operations}>
-        <View style={styles.searchInputField}>
+        <Pressable onPress={goToSearch} style={styles.searchInputField}>
           <View
             style={{
               flexDirection: "row",
@@ -26,10 +81,20 @@ function HomeScreen() {
             />
             <Text style={styles.textInput}>Where to?</Text>
           </View>
-          <View style={styles.timeSelector}>
+          <Pressable onPress={selectTime} style={styles.timeSelector}>
             <Ionicons name="time-sharp" size={24} color="black" />
             <Text style={{ fontSize: 20 }}>Now</Text>
             <AntDesign name="down" size={24} color="black" />
+          </Pressable>
+        </Pressable>
+        <View style={styles.destinationField}>
+          <View style={styles.destinationComponent}>
+            <Text style={styles.titleText}>Home</Text>
+            <Text>10 min</Text>
+          </View>
+          <View style={styles.destinationComponent}>
+            <Text style={styles.titleText}>Dagestan</Text>
+            <Text>17 min</Text>
           </View>
         </View>
       </View>
@@ -41,34 +106,55 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   map: {
-    flex: 2,
-    backgroundColor: "yellow",
+    flex: 10,
     justifyContent: "center",
     alignItems: "center",
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
   },
-  operations: { flex: 1, backgroundColor: "purple" },
+  operations: { flex: 4, backgroundColor: "white", paddingHorizontal: 25 },
   searchInputField: {
     backgroundColor: "white",
-    margin: 10,
+    marginVertical: 15,
     borderRadius: 30,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    borderColor: "gray",
+    borderWidth: 0.5,
   },
   textInput: {
     fontSize: 24,
     marginLeft: 15,
+    opacity: 0.8,
   },
   timeSelector: {
-    width:"30%",
+    width: "35%",
     backgroundColor: "gray",
-    borderRadius:25,
-    height: "90%",
-    marginRight: 2,
-    padding:10,
+    borderRadius: 25,
+    height: "85%",
+    marginRight: 3,
+    padding: 10,
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
-    opacity:0.8
+    opacity: 0.7,
   },
-});
+  destinationField: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  destinationComponent: {
+    width: "40%",
+    height: 100,
+    backgroundColor: Colors.primaryYellow,
+    margin: 15,
+    padding: 20,
+    borderRadius: 15,
+  },
+  titleText: {
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+})
