@@ -15,7 +15,7 @@ function RootNavigator() {
       <Drawer.Navigator drawerContent={(props) => <CustomDrawer {...props} />}>
         <Drawer.Screen
           options={(headerShown = false)}
-          name="Home"
+          name="Home Screen"
           component={HomeNavigator}
         />
         <Drawer.Screen
