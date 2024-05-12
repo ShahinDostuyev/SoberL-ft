@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
 import { PermissionsAndroid, Platform, StyleSheet } from "react-native";
 
 import { useEffect } from "react";
@@ -42,12 +42,12 @@ export default function App() {
   //     Geolocation.requestAuthorization();
   //   }
   // }, []);
-  const isLoggedIn = false;
+  const isLoggedIn = true;
 
   return (
     <>
       <StatusBar style="light" />
-    {isLoggedIn ? <RootNavigator/> : <StartAuthStack/>}
+      {isLoggedIn ? <RootNavigator /> : <StartAuthStack />}
     </>
   );
 }

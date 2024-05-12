@@ -75,14 +75,9 @@ function RideValidation({ route }) {
       </MapView>
       <View style={styles.details}>
         <View style={styles.locationDetails}>
-          <LocationHolder
-            text={originPlace.data.description}
-            bottomBorder
-          />
+          <LocationHolder text={originPlace.data.description} bottomBorder />
 
-          <LocationHolder
-            text={destinationPlace.data.description}
-          />
+          <LocationHolder text={destinationPlace.data.description} />
         </View>
         <View style={styles.calculatedRideDetails}>
           <View style={styles.rideInfoWrapper}>

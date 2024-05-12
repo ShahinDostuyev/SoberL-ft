@@ -48,14 +48,14 @@ const loginSchema = Yup.object().shape({
 });
 
 // Login component
-const LoginPage = ({navigation}) => {
+const LoginPage = ({ navigation }) => {
   const [selectedRole, setselectedRole] = useState("Client");
   console.log(selectedRole);
   // Function to handle form submission
   const handleLogin = (values) => {
     // Add your login logic here
     console.log("Login values:", values);
-    navigation.navigate("Home")
+    navigation.navigate("Home");
   };
 
   return (

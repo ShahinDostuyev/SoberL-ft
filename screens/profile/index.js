@@ -35,7 +35,12 @@ function ProfileScreen() {
         </View>
         <View style={[styles.accountOut, { justifyContent: "flex-end" }]}>
           <Pressable style={styles.containerWithIcon}>
-            <MaterialCommunityIcons name="logout" size={35} color="black" style={{marginLeft:2}} />
+            <MaterialCommunityIcons
+              name="logout"
+              size={35}
+              color="black"
+              style={{ marginLeft: 2 }}
+            />
             <Text style={styles.titleText}>Logout</Text>
           </Pressable>
           <View style={styles.seperator} />
@@ -96,7 +101,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 20,
   },
-  titleText: { fontSize: 18, fontWeight:"500"},
+  titleText: { fontSize: 18, fontWeight: "500" },
   accountOut: {
     backgroundColor: "white",
     gap: 15,

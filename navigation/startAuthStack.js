@@ -9,13 +9,17 @@ const StartStack = createStackNavigator();
 function StartAuthStack() {
   return (
     <NavigationContainer>
-        <StartStack.Navigator initialRouteName="Start">
-      <StartStack.Screen name="Start" component={StartScreen} />
-      <StartStack.Screen name="Login" component={LoginPage} />
-      <StartStack.Screen name="Register" component={RegisterPage} />
-    </StartStack.Navigator>
+      <StartStack.Navigator
+        initialRouteName="Start"
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <StartStack.Screen name="Start" component={StartScreen} />
+        <StartStack.Screen name="Login" component={LoginPage} />
+        <StartStack.Screen name="Register" component={RegisterPage} />
+      </StartStack.Navigator>
     </NavigationContainer>
-    
   );
 }
 

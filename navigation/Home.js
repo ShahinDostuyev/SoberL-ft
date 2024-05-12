@@ -1,6 +1,3 @@
-import StartScreen from "../screens/start";
-import LoginPage from "../screens/login";
-import RegisterPage from "../screens/register";
 import HomeScreen from "../screens/home";
 import DestinationSearch from "../screens/destinationSearch";
 import RideValidation from "../screens/rideValidation";

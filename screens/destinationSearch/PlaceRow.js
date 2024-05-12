@@ -2,7 +2,7 @@ import { Entypo } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-function PlaceRow({data}) {
+function PlaceRow({ data }) {
   return (
     <View style={styles.row}>
       <View style={styles.iconContainer}>
@@ -16,16 +16,15 @@ function PlaceRow({data}) {
 export default PlaceRow;
 
 const styles = StyleSheet.create({
-    row:{
-        flexDirection:"row",
-        alignItems:"center",
-        marginVertical:5
-    },
-    iconContainer:{
-        backgroundColor:"#a2a2a2",
-        padding:5,
-        borderRadius:50,
-        marginRight:15
-
-    }
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 5,
+  },
+  iconContainer: {
+    backgroundColor: "#a2a2a2",
+    padding: 5,
+    borderRadius: 50,
+    marginRight: 15,
+  },
 });

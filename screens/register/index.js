@@ -60,8 +60,7 @@ const RegisterPage = () => {
   const handleRegistration = (values) => {
     // Add your registration logic here
     console.log("Registration values:", values);
-    navigation.navigate("Home")
-
+    navigation.navigate("Home");
   };
 
   return (

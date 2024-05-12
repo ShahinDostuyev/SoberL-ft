@@ -3,7 +3,6 @@ import CustomDrawer from "./CustomDrawer";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import MyTrips from "../screens/myTrips";
 import AboutScreen from "../screens/about";
-import HomeScreen from "../screens/home";
 import ProfileScreen from "../screens/profile";
 import HomeNavigator from "./Home";
 
@@ -14,8 +13,10 @@ function RootNavigator() {
     <NavigationContainer>
       <Drawer.Navigator drawerContent={(props) => <CustomDrawer {...props} />}>
         <Drawer.Screen
-          options={(headerShown = false)}
-          name="Home Screen"
+          options={{
+            headerStyle: { backgroundColor: "transparent" }, 
+          }}
+          name="SoberLift"
           component={HomeNavigator}
         />
         <Drawer.Screen

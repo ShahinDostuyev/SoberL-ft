@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Dimensions, StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import PrimaryButton from "../../components/primaryButton";

@@ -48,7 +48,10 @@ function StartScreen({ navigation }) {
                 Sign In
               </PrimaryButton>
               {/* <PrimaryButton>Sign Up</PrimaryButton> */}
-              <Pressable onPress={() => navigation.navigate("Register") } android_ripple={{color:"white"}}>
+              <Pressable
+                onPress={() => navigation.navigate("Register")}
+                android_ripple={{ color: "white" }}
+              >
                 <Text style={{ color: "white", marginTop: 10 }}>
                   Create new account
                 </Text>
