@@ -5,41 +5,39 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import Colors from "../../constants/Colors";
 import MapView, { Marker } from "react-native-maps";
-
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
+import axios from "axios";
 
-const drivers = [
-  { id: 1, name: "Shahin", coordinate: { latitude: 38.32, longitude: 26.63 } },
-  {
-    id: 2,
-    name: "Nurlan",
-    coordinate: { latitude: 38.3235, longitude: 26.6334 },
-  },
-  {
-    id: 3,
-    name: "Masud",
-    coordinate: { latitude: 38.3223, longitude: 26.637 },
-  },
-  {
-    id: 4,
-    name: "Fakhri",
-    coordinate: { latitude: 38.3245, longitude: 26.63465 },
-  },
-  {
-    id: 5,
-    name: "Elvin",
-    coordinate: { latitude: 38.33, longitude: 26.645 },
-  },
-];
 function HomeScreen({ navigation }) {
   const [date, setdate] = useState(new Date());
   const [show, setshow] = useState(false);
   const [ridePostponed, setridePostponed] = useState(false);
+  const [driverLocations, setdriverLocations] = useState([]);
+
+  const currentLocaiton = { longitude: 26.636389, latitude: 38.320278 };
 
   useEffect(() => {
-    console.log(date.toLocaleString());
-  }, [date]);
+    const fetchNearbyDrivers = async () => {
+      try {
+        // Sending POST request to the API
+        const response = await axios.post(
+          "https://soberlift.onrender.com/api/nearbydrivers",
+          currentLocaiton
+        );
+
+        if (response.status === 200) {
+          setdriverLocations(response.data);
+        } else {
+          console.log("Error:", response.status);
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    };
+
+    fetchNearbyDrivers();
+  }, []);
 
   const onChange = (event, selectedDate) => {
     setshow(false);
@@ -59,6 +57,7 @@ function HomeScreen({ navigation }) {
     console.log("Let's select time");
     setshow(true);
   };
+
   return (
     <>
       <MapView
@@ -70,16 +69,18 @@ function HomeScreen({ navigation }) {
           longitudeDelta: 0.04,
         }}
       >
-        {drivers.map((driver) => {
+        {driverLocations.map((location, index) => {
           return (
             <Marker
-              id={driver.id}
-              coordinate={driver.coordinate}
-              title={driver.name}
+              id={index}
+              coordinate={{
+                longitude: location.longitude,
+                latitude: location.latitude,
+              }}
               description="Location of drivers"
             >
               <Image
-                id={driver.id}
+                id={index}
                 style={{ width: 40, height: 40, resizeMode: "contain" }}
                 source={require("../../assets/images/driver.png")}
               />
