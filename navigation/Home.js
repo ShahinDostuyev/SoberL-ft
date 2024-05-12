@@ -12,21 +12,6 @@ function HomeNavigator() {
   return (
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen
-        name="Start"
-        component={StartScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Login"
-        component={LoginPage}
-        // options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Register"
-        component={RegisterPage}
-        // options={{ headerShown: false }}
-      />
-      <Stack.Screen
         name="Home"
         component={HomeScreen}
         options={{ headerShown: false }}
