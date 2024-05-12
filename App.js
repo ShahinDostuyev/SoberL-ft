@@ -1,16 +1,19 @@
 import { StatusBar } from "expo-status-bar";
 import "react-native-gesture-handler";
 import { PermissionsAndroid, Platform, StyleSheet } from "react-native";
-
 import { useEffect } from "react";
 
 import RootNavigator from "./navigation/Root";
 import StartAuthStack from "./navigation/startAuthStack";
 
+import { useSelector } from "react-redux";
+import store from "./redux/store";
+
 // import Geolocation from "@react-native-community/geolocation";
 // navigator.geolocation = require("@react-native-community/geolocation")
 
 export default function App() {
+  const user = useSelector(state => state.user.user);
   // const requestLocationPermission = async () => {
   //   try {
   //     const granted = await PermissionsAndroid.request(
@@ -42,12 +45,11 @@ export default function App() {
   //     Geolocation.requestAuthorization();
   //   }
   // }, []);
-  const isLoggedIn = true;
 
   return (
     <>
       <StatusBar style="light" />
-      {isLoggedIn ? <RootNavigator /> : <StartAuthStack />}
+      {user ? <RootNavigator /> : <StartAuthStack />}
     </>
   );
 }

@@ -10,6 +10,9 @@ import {
 import { Formik } from "formik";
 import * as Yup from "yup";
 import PrimaryButton from "../../components/primaryButton";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "../../redux/actions";
+import axios from "axios";
 
 // Function to check password requirements
 const checkPasswordRequirements = (password) => {
@@ -50,12 +53,26 @@ const loginSchema = Yup.object().shape({
 // Login component
 const LoginPage = ({ navigation }) => {
   const [selectedRole, setselectedRole] = useState("Client");
+  const dispatch = useDispatch();
   console.log(selectedRole);
   // Function to handle form submission
-  const handleLogin = (values) => {
-    // Add your login logic here
-    console.log("Login values:", values);
-    navigation.navigate("Home");
+  const handleLogin = async (values) => {
+    const { email, password } = values;
+    const requestBody = {
+      email,
+      password,
+    };
+    try {
+      const response = await axios.post(
+        `https://soberlift.onrender.com/api/${selectedRole}login`,
+        requestBody
+      );
+      dispatch(setUserInfo(response.data));
+      // Handle success response
+      console.log("Login successful:", response.data);
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
 
   return (

@@ -10,6 +10,11 @@ import {
 import { Formik } from "formik";
 import * as Yup from "yup";
 import PrimaryButton from "../../components/primaryButton";
+import axios from "axios";
+
+import { useDispatch } from 'react-redux';
+import { setUserInfo } from "../../redux/actions";
+
 
 // Function to check password requirements
 const checkPasswordRequirements = (password) => {
@@ -52,15 +57,44 @@ const registerSchema = Yup.object().shape({
   password: Yup.string().required("Password is required"),
 });
 
-const RegisterPage = () => {
+const RegisterPage = ({ navigation }) => {
   const [selectedRole, setselectedRole] = useState("Client");
   console.log(selectedRole);
+  const dispatch = useDispatch();
+
+  
+
 
   // Function to handle form submission
-  const handleRegistration = (values) => {
-    // Add your registration logic here
-    console.log("Registration values:", values);
-    navigation.navigate("Home");
+  const handleRegistration = async (values) => {
+    const { name, surname, email, contactNumber, password } = values;
+    const requestBody = {
+      name,
+      surname,
+      email,
+      contactNumber,
+      password,
+    };
+    try {
+      const response = await axios.post(
+        `https://soberlift.onrender.com/api/${selectedRole}register`,
+        requestBody
+      );
+
+      // Handle success response
+      console.log("Registration successful:", response.data);
+      const userInfo = {
+        name,
+        surname,
+        email,
+        contactNumber,
+        role: selectedRole,
+      };
+      dispatch(setUserInfo(userInfo));
+
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
   };
 
   return (

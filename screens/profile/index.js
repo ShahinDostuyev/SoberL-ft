@@ -1,6 +1,8 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
+import { cleanUser } from "../../redux/actions";
 
 const user = {
   name: "Shahin",
@@ -10,6 +12,10 @@ const user = {
 };
 
 function ProfileScreen() {
+  const dispatch = useDispatch();
+  const logOut = () => {
+    dispatch(cleanUser());
+  };
   return (
     <>
       <View style={styles.rootContainer}>
@@ -34,7 +40,7 @@ function ProfileScreen() {
           </View>
         </View>
         <View style={[styles.accountOut, { justifyContent: "flex-end" }]}>
-          <Pressable style={styles.containerWithIcon}>
+          <Pressable style={styles.containerWithIcon} onPress={logOut}>
             <MaterialCommunityIcons
               name="logout"
               size={35}
