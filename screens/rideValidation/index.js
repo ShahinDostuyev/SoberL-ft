@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PrimaryButton from "../../components/primaryButton";
 import LocationHolder from "../../components/locationHolder";
 import { Image, StyleSheet, Text, View } from "react-native";
 import VerticalLine from "../../components/verticalLine";
 import MapView, { Marker } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
+import axios from "axios";
 
 function RideValidation({ route }) {
   const { originPlace, destinationPlace } = route.params;
+  const [rideInfo, setrideInfo] = useState(null);
 
   const originPlaceLocation = originPlace.details.geometry.location;
   const destinationPlaceLocation = destinationPlace.details.geometry.location;
@@ -20,11 +22,22 @@ function RideValidation({ route }) {
     latitude: destinationPlaceLocation.lat,
     longitude: destinationPlaceLocation.lng,
   };
-  console.log(
-    "Validation page info: ",
-    originPlaceLocation,
-    destinationPlaceLocation
-  );
+  useEffect(() => {
+    const calculateDistance = () => {
+      axios
+        .get(
+          `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${originPlaceLocation.lat},${originPlaceLocation.lng}&destinations=${destinationPlaceLocation.lat},${destinationPlaceLocation.lng}&key=AIzaSyCs4CFoDHas00xgk0CLFRxjLloQbbtzDM0`
+        )
+        .then((response) => {
+          setrideInfo(response.data.rows[0].elements[0]);
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+    };
+    calculateDistance();
+  }, []);
+
   return (
     <>
       <MapView
@@ -43,29 +56,21 @@ function RideValidation({ route }) {
           apikey="AIzaSyCs4CFoDHas00xgk0CLFRxjLloQbbtzDM0"
           strokeWidth={2}
         />
-        {/* <Marker
-          coordinate={{
-            latitude: origin.latitude,
-            longitude: origin.longitude,
-          }}
-          
-        />  */}
-
         <Marker
           coordinate={{
             latitude: destination.latitude,
             longitude: destination.longitude,
           }}
-          title="Marker Title"
-          description="Marker Description"
+          title="Destination"
+          description="Destination Location"
         />
         <Marker
           coordinate={{
             latitude: origin.latitude,
             longitude: origin.longitude,
           }}
-          title="Marker Title"
-          description="Location of drivers"
+          title="Origin"
+          description="Origin Location"
         >
           <Image
             style={{ width: 40, height: 40, resizeMode: "contain" }}
@@ -76,25 +81,28 @@ function RideValidation({ route }) {
       <View style={styles.details}>
         <View style={styles.locationDetails}>
           <LocationHolder text={originPlace.data.description} bottomBorder />
-
           <LocationHolder text={destinationPlace.data.description} />
         </View>
         <View style={styles.calculatedRideDetails}>
           <View style={styles.rideInfoWrapper}>
             <Text>Distance</Text>
-            <Text style={styles.rideInfoText}>4.8 km</Text>
+            <Text style={styles.rideInfoText}>{rideInfo?.distance.text}</Text>
           </View>
+
           <VerticalLine />
 
           <View style={styles.rideInfoWrapper}>
             <Text>Price</Text>
-            <Text style={styles.rideInfoText}>20$</Text>
+            <Text
+              style={styles.rideInfoText}
+            >{`${parseInt(rideInfo?.distance?.text) * 40} TL`}</Text>
           </View>
+
           <VerticalLine />
 
           <View style={styles.rideInfoWrapper}>
             <Text>Arrival</Text>
-            <Text style={styles.rideInfoText}>15min</Text>
+            <Text style={styles.rideInfoText}>{rideInfo?.duration?.text}</Text>
           </View>
         </View>
         <PrimaryButton color="black" textColor="white">
