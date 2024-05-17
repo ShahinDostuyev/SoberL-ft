@@ -8,14 +8,41 @@ import MapView, { Marker } from "react-native-maps";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
 import axios from "axios";
+import * as Location from "expo-location";
 
 function HomeScreen({ navigation }) {
   const [date, setdate] = useState(new Date());
   const [show, setshow] = useState(false);
   const [ridePostponed, setridePostponed] = useState(false);
   const [driverLocations, setdriverLocations] = useState([]);
+  const [location, setLocation] = useState({
+    longitude: 30.636389,
+    latitude: 38.320278,
+  });
+  const [region, setRegion] = useState(null);
 
-  const currentLocaiton = { longitude: 26.636389, latitude: 38.320278 };
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let currentLocation = await Location.getCurrentPositionAsync({});
+      setLocation({
+        latitude: currentLocation.coords.latitude,
+        longitude: currentLocation.coords.longitude,
+      });
+      setRegion({
+        latitude: currentLocation.coords.latitude,
+        longitude: currentLocation.coords.longitude,
+        latitudeDelta: 0.015,
+        longitudeDelta: 0.04,
+      });
+      setLoading(false);
+    })();
+  }, []);
 
   useEffect(() => {
     const fetchNearbyDrivers = async () => {
@@ -23,7 +50,7 @@ function HomeScreen({ navigation }) {
         // Sending POST request to the API
         const response = await axios.post(
           "https://soberlift.onrender.com/api/nearbydrivers",
-          currentLocaiton
+          location
         );
 
         if (response.status === 200) {
@@ -62,12 +89,8 @@ function HomeScreen({ navigation }) {
     <>
       <MapView
         style={styles.map}
-        initialRegion={{
-          latitude: 38.320278,
-          longitude: 26.636389,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.04,
-        }}
+        initialRegion={region}
+        showsUserLocation={true}
       >
         {driverLocations.map((location, index) => {
           return (
@@ -116,11 +139,11 @@ function HomeScreen({ navigation }) {
         <View style={styles.destinationField}>
           <View style={styles.destinationComponent}>
             <Text style={styles.titleText}>Home</Text>
-            <Text>10 min</Text>
+            <Text>12 min</Text>
           </View>
           <View style={styles.destinationComponent}>
-            <Text style={styles.titleText}>Dagestan</Text>
-            <Text>17 min</Text>
+            <Text style={styles.titleText}>Urla Sanat sokağı</Text>
+            <Text>19 min</Text>
           </View>
         </View>
         {show && (

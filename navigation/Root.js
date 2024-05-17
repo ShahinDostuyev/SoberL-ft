@@ -14,7 +14,7 @@ function RootNavigator() {
       <Drawer.Navigator drawerContent={(props) => <CustomDrawer {...props} />}>
         <Drawer.Screen
           options={{
-            headerStyle: { backgroundColor: "transparent" }, 
+            headerStyle: { backgroundColor: "transparent" },
           }}
           name="SoberLift"
           component={HomeNavigator}
@@ -26,13 +26,13 @@ function RootNavigator() {
         />
         <Drawer.Screen
           options={(headerShown = false)}
-          name="About"
-          component={AboutScreen}
+          name="Account"
+          component={ProfileScreen}
         />
         <Drawer.Screen
           options={(headerShown = false)}
-          name="Account"
-          component={ProfileScreen}
+          name="About"
+          component={AboutScreen}
         />
       </Drawer.Navigator>
     </NavigationContainer>
