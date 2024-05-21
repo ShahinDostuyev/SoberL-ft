@@ -40,7 +40,6 @@ function HomeScreen({ navigation }) {
         latitudeDelta: 0.015,
         longitudeDelta: 0.04,
       });
-      setLoading(false);
     })();
   }, []);
 

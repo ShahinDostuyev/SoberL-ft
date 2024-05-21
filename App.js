@@ -7,6 +7,7 @@ import RootNavigator from "./navigation/Root";
 import StartAuthStack from "./navigation/startAuthStack";
 
 import { useSelector } from "react-redux";
+import HomeNavigator from "./navigation/DriverNavigation";
 
 export default function App() {
   const user = useSelector((state) => state.user.user);
@@ -15,6 +16,7 @@ export default function App() {
     <>
       <StatusBar style="light" />
       {user ? <RootNavigator /> : <StartAuthStack />}
+      {/* <HomeNavigator /> */}
     </>
   );
 }

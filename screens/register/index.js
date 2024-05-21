@@ -12,9 +12,8 @@ import * as Yup from "yup";
 import PrimaryButton from "../../components/primaryButton";
 import axios from "axios";
 
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import { setUserInfo } from "../../redux/actions";
-
 
 // Function to check password requirements
 const checkPasswordRequirements = (password) => {
@@ -58,12 +57,7 @@ const registerSchema = Yup.object().shape({
 });
 
 const RegisterPage = ({ navigation }) => {
-  const [selectedRole, setselectedRole] = useState("Client");
-  console.log(selectedRole);
   const dispatch = useDispatch();
-
-  
-
 
   // Function to handle form submission
   const handleRegistration = async (values) => {
@@ -77,7 +71,7 @@ const RegisterPage = ({ navigation }) => {
     };
     try {
       const response = await axios.post(
-        `https://soberlift.onrender.com/api/${selectedRole}register`,
+        `https://soberlift.onrender.com/api/clientregister`,
         requestBody
       );
 
@@ -88,10 +82,8 @@ const RegisterPage = ({ navigation }) => {
         surname,
         email,
         contactNumber,
-        role: selectedRole,
       };
       dispatch(setUserInfo(userInfo));
-
     } catch (error) {
       console.error("Registration failed:", error);
     }
@@ -107,54 +99,6 @@ const RegisterPage = ({ navigation }) => {
       <View style={styles.rootContainer}>
         <View style={styles.formContainer}>
           <Text style={styles.title}>Register</Text>
-          <View style={styles.roleSelector}>
-            <TouchableOpacity
-              style={{
-                width: "50%",
-                height: 40,
-                backgroundColor: selectedRole == "Client" ? "blue" : "white",
-                borderRadius: 15,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              onPress={() => {
-                setselectedRole("Client");
-              }}
-            >
-              <Text
-                style={{
-                  color: selectedRole == "Client" ? "white" : "black",
-                  fontSize: 18,
-                  fontWeight: "700",
-                }}
-              >
-                Client
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                width: "50%",
-                height: 40,
-                backgroundColor: selectedRole == "Driver" ? "blue" : "white",
-                borderRadius: 15,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              onPress={() => {
-                setselectedRole("Driver");
-              }}
-            >
-              <Text
-                style={{
-                  color: selectedRole == "Driver" ? "white" : "black",
-                  fontSize: 18,
-                  fontWeight: "700",
-                }}
-              >
-                Driver
-              </Text>
-            </TouchableOpacity>
-          </View>
 
           {/* Formik component for handling forms */}
           <Formik
@@ -293,17 +237,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     marginBottom: 16,
-  },
-  roleSelector: {
-    width: "85%",
-    height: 50,
-    marginVertical: 20,
-    borderWidth: 0.5,
-    borderRadius: 15,
-    backgroundColor: "white",
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 5,
   },
   input: {
     height: 40,

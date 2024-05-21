@@ -1,6 +1,5 @@
 // userReducer.js
-import { CLEAR_USER, SET_USER_INFO } from './actions';
-
+import { CLEAR_USER, SET_USER_INFO } from "./actions";
 
 const initialState = {
   user: {},
