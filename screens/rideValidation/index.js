@@ -6,8 +6,10 @@ import VerticalLine from "../../components/verticalLine";
 import MapView, { Marker } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 function RideValidation({ route }) {
+  const user = useSelector((state) => state.user.user.client);
   const { originPlace, destinationPlace } = route.params;
   const [rideInfo, setrideInfo] = useState(null);
 
@@ -22,6 +24,37 @@ function RideValidation({ route }) {
     latitude: destinationPlaceLocation.lat,
     longitude: destinationPlaceLocation.lng,
   };
+
+  const newRequest = {
+    clientId: user._id,
+    scheduledTime: new Date(),
+    pickupLocation: {
+      address: originPlace.data.description,
+      latitude: originPlaceLocation.lat,
+      longitude: originPlaceLocation.lng,
+    },
+    dropOffLocation: {
+      address: destinationPlace.data.description,
+      latitude: destinationPlaceLocation.lat,
+      longitude: destinationPlaceLocation.lng,
+    },
+    fare: rideInfo ? parseInt(rideInfo.distance.text) * 40 : 0,
+  };
+
+  console.log("Request created for axios", newRequest);
+
+  const onValidation = async () => {
+    try {
+      const response = await axios.post(
+        `https://soberlift.onrender.com/api/createrequest`,
+        newRequest
+      );
+      console.log("Request creation is successfull: ", response.data);
+    } catch (error) {
+      console.error("Request creation failed with error: ", error);
+    }
+  };
+
   useEffect(() => {
     const calculateDistance = () => {
       axios
@@ -37,6 +70,7 @@ function RideValidation({ route }) {
     };
     calculateDistance();
   }, []);
+  console.log("RideInfo", rideInfo);
 
   return (
     <>
@@ -105,7 +139,7 @@ function RideValidation({ route }) {
             <Text style={styles.rideInfoText}>{rideInfo?.duration?.text}</Text>
           </View>
         </View>
-        <PrimaryButton color="black" textColor="white">
+        <PrimaryButton color="black" textColor="white" onPress={onValidation}>
           Order Now
         </PrimaryButton>
       </View>
