@@ -1,21 +1,79 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { useDispatch } from "react-redux";
-import { cleanUser } from "../../redux/actions";
+import { useSelector } from "react-redux";
 
-const user = {
-  name: "Shahin",
-  surname: "Dostuyev",
-  rating: "4.8",
-  containerWithIcon: "Karapinar mahallesi, Izmir",
-};
+import { cleanUser, updateUser } from "../../redux/actions";
+import axios from "axios";
 
 function ProfileScreen() {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user.client);
+  console.log(user);
+  const [name, setname] = useState(user.name);
+  const [surname, setsurname] = useState(user.surname);
+  const [email, setemail] = useState(user.email);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const [errors, setErrors] = useState({});
   const logOut = () => {
     dispatch(cleanUser());
   };
+
+  const validateInputs = () => {
+    const newErrors = {};
+    if (!name.trim()) {
+      newErrors.name = "Name cannot be empty";
+    }
+    if (!surname.trim()) {
+      newErrors.surname = "Surname cannot be empty";
+    }
+    if (!email.trim()) {
+      newErrors.email = "Email cannot be empty";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Email format is invalid";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const toggleEdit = () => {
+    if (isEditing) {
+      if (!validateInputs()) {
+        return;
+      }
+      dispatch(updateUser({ name, surname, email }));
+
+      // Save changes to the store or server here if needed
+      const putProfielChanges = async () => {
+        try {
+          const response = await axios.put(
+            `https://soberlift.onrender.com/api/updateclientdetails`,
+            {
+              clientId: user._id,
+              name: String(name),
+              surname: String(surname),
+              email: String(email),
+            }
+          );
+          console.log(response.data);
+        } catch (error) {
+          console.warn(error);
+        }
+      };
+      putProfielChanges();
+    }
+    setIsEditing(!isEditing);
+  };
+
   return (
     <>
       <View style={styles.rootContainer}>
@@ -36,6 +94,76 @@ function ProfileScreen() {
             <View>
               <Text style={styles.titleText}>Home</Text>
               <Text>{user.containerWithIcon}</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.profileInfoContainer}>
+          <View style={styles.profileInfoHeader}>
+            <Text style={styles.username}> Profile Info</Text>
+            <Pressable onPress={toggleEdit}>
+              <MaterialCommunityIcons
+                name={isEditing ? "check" : "account-edit-outline"}
+                size={36}
+                color="black"
+              />
+            </Pressable>
+          </View>
+
+          <View style={styles.containerWithIcon}>
+            <MaterialCommunityIcons
+              name="account-outline"
+              size={36}
+              color="black"
+            />
+            <View>
+              <Text style={styles.titleText}>Name</Text>
+              <TextInput
+                editable={isEditing}
+                value={name}
+                onChangeText={setname}
+                style={isEditing ? styles.inputEditable : styles.input}
+              />
+              {errors.name && (
+                <Text style={styles.errorText}>{errors.name}</Text>
+              )}
+            </View>
+          </View>
+          <View style={styles.containerWithIcon}>
+            <MaterialCommunityIcons
+              name="account-outline"
+              size={36}
+              color="black"
+            />
+            <View>
+              <Text style={styles.titleText}>Surname</Text>
+              <TextInput
+                editable={isEditing}
+                value={surname}
+                onChangeText={setsurname}
+                style={isEditing ? styles.inputEditable : styles.input}
+              />
+              {errors.surname && (
+                <Text style={styles.errorText}>{errors.surname}</Text>
+              )}
+            </View>
+          </View>
+          <View style={styles.containerWithIcon}>
+            <MaterialCommunityIcons
+              name="email-outline"
+              size={36}
+              color="black"
+            />
+            <View>
+              <Text style={styles.titleText}>Email</Text>
+              <TextInput
+                editable={isEditing}
+                value={email}
+                onChangeText={setemail}
+                style={isEditing ? styles.inputEditable : styles.input}
+              />
+              {errors.email && (
+                <Text style={styles.errorText}>{errors.email}</Text>
+              )}
             </View>
           </View>
         </View>
@@ -108,6 +236,28 @@ const styles = StyleSheet.create({
     gap: 20,
   },
   titleText: { fontSize: 18, fontWeight: "500" },
+  profileInfoContainer: {
+    backgroundColor: "white",
+    gap: 15,
+    borderRadius: 10,
+    paddingVertical: 20,
+    paddingHorizontal: 15,
+  },
+  profileInfoHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  input: {
+    color: "black",
+  },
+  inputEditable: {
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 5,
+    color: "black",
+    padding: 0,
+  },
   accountOut: {
     backgroundColor: "white",
     gap: 15,

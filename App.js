@@ -16,7 +16,6 @@ export default function App() {
     <>
       <StatusBar style="light" />
       {user ? <RootNavigator /> : <StartAuthStack />}
-      {/* <HomeNavigator /> */}
     </>
   );
 }
