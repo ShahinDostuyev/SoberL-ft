@@ -20,6 +20,7 @@ function HomeScreen({ navigation }) {
     latitude: 38.320278,
   });
   const [region, setRegion] = useState(null);
+  console.log("Driver locations",driverLocations);
 
   useEffect(() => {
     (async () => {
@@ -63,7 +64,7 @@ function HomeScreen({ navigation }) {
     };
 
     fetchNearbyDrivers();
-  }, []);
+  }, [location]);
 
   const onChange = (event, selectedDate) => {
     setshow(false);
@@ -94,7 +95,7 @@ function HomeScreen({ navigation }) {
         {driverLocations.map((location, index) => {
           return (
             <Marker
-              id={index}
+              key={index}
               coordinate={{
                 longitude: location.longitude,
                 latitude: location.latitude,

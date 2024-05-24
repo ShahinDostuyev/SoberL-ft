@@ -11,6 +11,7 @@ import HomeNavigator from "./navigation/DriverNavigation";
 
 export default function App() {
   const user = useSelector((state) => state.user.user);
+  console.log("User info: ",user);
 
   return (
     <>

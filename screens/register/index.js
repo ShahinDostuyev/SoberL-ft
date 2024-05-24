@@ -77,13 +77,8 @@ const RegisterPage = ({ navigation }) => {
 
       // Handle success response
       console.log("Registration successful:", response.data);
-      const userInfo = {
-        name,
-        surname,
-        email,
-        contactNumber,
-      };
-      dispatch(setUserInfo(userInfo));
+
+      dispatch(setUserInfo(response.data));
     } catch (error) {
       console.error("Registration failed:", error);
     }
