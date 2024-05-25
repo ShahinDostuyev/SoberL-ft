@@ -242,7 +242,14 @@ function RideValidation({ route, navigation }) {
             <Text style={styles.rideInfoText}>{rideInfo?.duration?.text}</Text>
           </View>
         </View>
-        <Pressable style={styles.chat}>
+        <Pressable
+          style={styles.chat}
+          onPress={() =>
+            navigation.navigate("Chat", {
+              ride,
+            })
+          }
+        >
           <MaterialIcons name="chat" size={40} color="black" />
         </Pressable>
 

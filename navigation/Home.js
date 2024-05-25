@@ -2,6 +2,7 @@ import HomeScreen from "../screens/home";
 import DestinationSearch from "../screens/destinationSearch";
 import RideValidation from "../screens/rideValidation";
 import { createStackNavigator } from "@react-navigation/stack";
+import ChatScreen from "../screens/chat";
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,11 @@ function HomeNavigator() {
       <Stack.Screen
         name="RideValidation"
         component={RideValidation}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Chat"
+        component={ChatScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
