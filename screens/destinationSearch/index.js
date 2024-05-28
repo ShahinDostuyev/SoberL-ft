@@ -52,7 +52,7 @@ function DestinationSearch({ navigation }) {
                 fetchDetails
                 enablePoweredByContainer={false}
                 styles={{
-                  listView: styles.listView,
+                  listView: [styles.listView, { top: 50 }],
                 }}
                 query={{
                   key: "AIzaSyBQPnTNzSx6Q6nHJExZjslfgmOTubMl7EI",
@@ -65,7 +65,10 @@ function DestinationSearch({ navigation }) {
             <View style={styles.line}></View>
             <View style={styles.square}></View>
           </View>
-          <PrimaryButton onPress={onDestinationConfirmation}>
+          <PrimaryButton
+            onPress={onDestinationConfirmation}
+            disabled={!(originPlace && destinationPlace)}
+          >
             Confirm
           </PrimaryButton>
         </View>

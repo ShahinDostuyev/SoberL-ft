@@ -4,13 +4,13 @@ import {
 } from "@react-navigation/drawer";
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 
-const user = {
-  name: "Shahin",
-  surname: "Dostuyev",
-  rating: "4.8",
-};
+import { useSelector } from "react-redux";
+
 function CustomDrawer(props) {
+  const user = useSelector((state) => state.user.user.client);
+
   return (
     <>
       <DrawerContentScrollView {...props}>
@@ -22,7 +22,11 @@ function CustomDrawer(props) {
             <Text
               style={styles.username}
             >{`${user.name} ${user.surname}`}</Text>
-            <Text style={styles.rating}>{user.rating}</Text>
+            <View style={styles.ratingContainer}>
+              <Text style={styles.rating}>{user.rating}</Text>
+              <MaterialIcons name="star" size={20} color="black" />
+
+            </View>
           </View>
         </Pressable>
         <DrawerItemList {...props} />
@@ -52,6 +56,10 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     fontSize: 20,
+  },
+  ratingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   rating: {
     color: "white",

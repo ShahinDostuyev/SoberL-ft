@@ -7,7 +7,6 @@ import RootNavigator from "./navigation/Root";
 import StartAuthStack from "./navigation/startAuthStack";
 
 import { useSelector } from "react-redux";
-import HomeNavigator from "./navigation/DriverNavigation";
 
 export default function App() {
   const user = useSelector((state) => state.user.user);

@@ -8,6 +8,8 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
@@ -85,7 +87,10 @@ function ProfileScreen() {
             />
           </View>
           <Text style={styles.username}>{`${user.name} ${user.surname}`}</Text>
-          <Text style={styles.rating}>{`${user.rating} Rating`}</Text>
+          <View style={styles.ratingContainer}>
+            <Text style={styles.rating}>{`${user.rating} `}</Text>
+            <MaterialIcons name="star" size={20} color="black" />
+          </View>
         </View>
         <View style={styles.savedPlacesContainer}>
           <Text style={styles.username}> Saved Places</Text>
@@ -93,7 +98,7 @@ function ProfileScreen() {
             <MaterialCommunityIcons name="home-roof" size={40} color="black" />
             <View>
               <Text style={styles.titleText}>Home</Text>
-              <Text>{user.containerWithIcon}</Text>
+              <Text>Karapınar caddesi, 12009 sokak, ev 19</Text>
             </View>
           </View>
         </View>
@@ -219,6 +224,10 @@ const styles = StyleSheet.create({
   username: {
     fontWeight: "bold",
     fontSize: 20,
+  },
+  ratingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   rating: {
     fontSize: 15,

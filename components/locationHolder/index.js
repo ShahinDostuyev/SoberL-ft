@@ -33,7 +33,6 @@ export default LocationHolder;
 const styles = StyleSheet.create({
   locationDetail: {
     width: "90%",
-    marginVertical: 5,
     padding: 10,
     flexDirection: "row",
   },

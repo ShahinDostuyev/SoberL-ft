@@ -72,7 +72,7 @@ function MyTrips() {
                           styles.priceText,
                           {
                             color:
-                              ride.status === "completed" ? "green" : "red",
+                              ride.status === "finished" ? "green" : "red",
                           },
                         ]}
                       >
